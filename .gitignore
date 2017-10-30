@@ -1,0 +1,7 @@
+/coverage
+/node_modules
+/build
+/build-intermediate
+/types
+npm-debug.log*
+.DS_Store
