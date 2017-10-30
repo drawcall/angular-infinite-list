@@ -29,7 +29,7 @@ Getting Started
 
 #### Using [npm](https://www.npmjs.com/):
 ```
-npm install  --save
+npm install angular-infinite-list --save
 ```
 
 #### Import angular Infinite list module into your app module
