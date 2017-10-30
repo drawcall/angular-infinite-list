@@ -26,7 +26,7 @@ npm install angular-infinite-list --save
 #### Import angular Infinite list module into your app module
 
 ```js
-import { InfiniteListModule } from '';
+import { InfiniteListModule } from 'angular-infinite-list';
 
 @NgModule({
   imports: [
