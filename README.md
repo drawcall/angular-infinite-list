@@ -5,15 +5,6 @@
 # 
 > A tiny but mighty list virtualization library for angular, with zero dependencies 💪
 
-[![npm version](https://img.shields.io/npm/v/.svg)](https://www.npmjs.com/package/)
-[![npm downloads](https://img.shields.io/npm/dm/.svg)](https://www.npmjs.com/package/)
-[![Build Status](https://travis-ci.org/clauderic/.svg?branch=master)](https://travis-ci.org/clauderic/)
-[![codecov](https://codecov.io/gh/clauderic//branch/master/graph/badge.svg)](https://codecov.io/gh/clauderic/)
-![typescript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg)
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/clauderic//blob/master/LICENSE)
-[![Gitter](https://badges.gitter.im/clauderic/.svg)](https://gitter.im/clauderic/)
-
-
 * **Tiny & dependency free** – Only 3kb gzipped
 * **Render millions of items**, without breaking a sweat
 * **Scroll to index** or **set the initial scroll offset**
@@ -22,7 +13,7 @@
 
 This library is transplanted from [react-tiny-virtual-list](https://github.com/clauderic/react-tiny-virtual-list) and [react-virtualized](https://github.com/bvaughn/react-virtualized/).   
 
-Check out the [demo](https://clauderic.github.io//) for some examples.
+Check out the [demo](https://a-jie.github.io/angular-infinite-list) for some examples.
 
 Getting Started
 ---------------
