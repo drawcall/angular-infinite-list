@@ -1,5 +1,5 @@
 <div align="center" style="margin-bottom: 30px;">
-<img src="https://cloud.githubusercontent.com/assets/1416436/23387281/9a628ec4-fd29-11e6-9a1a-09f755c21a14.png" width="200"/>
+<img src="https://raw.githubusercontent.com/a-jie/angular-infinite-list/master/imgs/logo.png" width="200"/>
 </div>
 
 # 
