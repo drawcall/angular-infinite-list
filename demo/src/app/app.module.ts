@@ -8,7 +8,7 @@ import {
   MatSelectModule,
   MatInputModule } from '@angular/material';
 
-import { InfiniteListModule } from 'test-angular-infinite-list';
+import { InfiniteListModule } from 'angular-infinite-list';
 import { AppRoutingModule } from './app-routing.module';
 
 import { NavBarComponent } from './components/navbar/navbar.component';

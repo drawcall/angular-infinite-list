@@ -98,7 +98,7 @@ export interface IILEvent {
 ```
 
 ## Reporting Issues
-Found an issue? Please [report it](https://github.com/clauderic//issues) along with any relevant details to reproduce it.
+Found an issue? Please [report it](https://github.com/a-jie/angular-infinite-list/issues) along with any relevant details to reproduce it.
 
 ## Acknowledgments
 This library is transplanted from [react-tiny-virtual-list](https://github.com/clauderic/react-tiny-virtual-list) and [react-virtualized](https://github.com/bvaughn/react-virtualized/). 
