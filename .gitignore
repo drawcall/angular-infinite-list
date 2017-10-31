@@ -3,6 +3,8 @@
 /build
 /build-intermediate
 /types
+/compiled
+/dist
 npm-debug.log*
 .DS_Store
 demo/package-lock.json

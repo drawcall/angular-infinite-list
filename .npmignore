@@ -1,8 +1,8 @@
 .DS_Store
 git/
-dist/
 node_modules/
 example/
+compiled/
 .*.swp
 ._*
 .DS_Store
