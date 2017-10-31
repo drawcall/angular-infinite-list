@@ -2,6 +2,7 @@
 git/
 node_modules/
 example/
+demo/
 compiled/
 .*.swp
 ._*

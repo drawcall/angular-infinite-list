@@ -1,13 +1,15 @@
 {
   "name": "angular-infinite-list",
-  "version": "0.2.1",
+  "version": "0.2.5",
   "description": "A tiny but mighty list virtualization library for angular, with zero dependencies",
   "main": "dist/index.js",
   "scripts": {
-    "cleanup": "rimraf dist",
+    "cpdist": "rimraf dist",
+    "cpbundles": "rimraf bundles",
     "ngc": "ngc",
-    "build": "npm run cleanup && npm run ngc",
-    "npmpub": "npm publish"
+    "ng": "npm run ngc",
+    "umd": "rollup -c rollup.conf.js",
+    "build": "npm run cpdist && npm run cpbundles && npm run ng && npm run umd"
   },
   "repository": {
     "type": "git",
