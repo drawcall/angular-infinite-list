@@ -438,7 +438,7 @@ var InfinitelistComponent = (function () {
     InfinitelistComponent.decorators = [
         { type: core.Component, args: [{
                     selector: 'infinite-list, infinitelist, [infinitelist]',
-                    templateUrl: 'infinite-list.component.html',
+                    template: "\n<div #dom (scroll)=\"handleScroll($event)\" [ngStyle]=\"warpStyle\">\n  <div [ngStyle]=\"innerStyle\">\n    <ng-content></ng-content>\n  </div>\n</div>\n  ",
                     changeDetection: core.ChangeDetectionStrategy.OnPush
                 },] },
     ];

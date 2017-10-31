@@ -6,7 +6,9 @@ import { FormsModule } from '@angular/forms';
 import {
   MatSlideToggleModule,
   MatSelectModule,
-  MatInputModule } from '@angular/material';
+  MatButtonModule,
+  MatInputModule
+} from '@angular/material';
 
 import { InfiniteListModule } from 'angular-infinite-list';
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +35,7 @@ import { AppComponent } from './app.component';
 
     MatSlideToggleModule,
     MatSelectModule,
+    MatButtonModule,
     MatInputModule
   ],
 

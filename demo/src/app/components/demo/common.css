@@ -33,3 +33,10 @@
     background: #fff!important;
     border: 5px solid #ff0000;
 }
+
+.linkbtn a{
+  padding: 0;
+  margin: 0;
+  color: rgba(255,255,255,.87);
+  text-decoration:none;
+}

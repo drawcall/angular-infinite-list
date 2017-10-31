@@ -1,8 +1,9 @@
 {
   "name": "angular-infinite-list",
-  "version": "0.2.5",
-  "description": "A tiny but mighty list virtualization library for angular, with zero dependencies",
+  "version": "0.2.8",
+  "description": "A tiny but mighty 3k list virtualization library for angular, with zero dependencies",
   "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "cpdist": "rimraf dist",
     "cpbundles": "rimraf bundles",

@@ -22,7 +22,13 @@ import {
 
 @Component({
   selector: 'infinite-list, infinitelist, [infinitelist]',
-  templateUrl: 'infinite-list.component.html',
+  template: `
+<div #dom (scroll)="handleScroll($event)" [ngStyle]="warpStyle">
+  <div [ngStyle]="innerStyle">
+    <ng-content></ng-content>
+  </div>
+</div>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 

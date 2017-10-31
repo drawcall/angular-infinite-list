@@ -13,7 +13,7 @@ export class Demo1Component {
   debug: boolean = false;
 
   ngOnInit() {
-    let length: number = 1000;
+    let length: number = 100000;
     this.data = [];
 
     for (let i: number = 0; i < length; i++) {
