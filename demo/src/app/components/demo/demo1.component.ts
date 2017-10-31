@@ -1,4 +1,5 @@
 import { Component, NgModule } from '@angular/core';
+import { ILEvent } from 'angular-infinite-list';
 
 @Component({
   selector: 'app-demo1',
@@ -9,7 +10,7 @@ import { Component, NgModule } from '@angular/core';
 export class Demo1Component {
 
   data: { title: number, msg: string }[];
-  event: any;
+  event: ILEvent;
   debug: boolean = false;
 
   ngOnInit() {
