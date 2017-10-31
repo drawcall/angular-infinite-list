@@ -1,2 +1,5 @@
 
 demo/package-lock.json
+node_modules
+demo
+dist
