@@ -1,5 +1,6 @@
 import { Component, NgModule, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs/subject';
+import { Subscription } from 'rxjs/Subscription';
 import { CommonService } from './common.service';
 
 @Component({
@@ -14,6 +15,7 @@ export class Demo5Component {
   debug: boolean = true;
   scrollOffset: number = 0;
   event: any;
+  sub: Subscription;
 
   constructor(private cdRef: ChangeDetectorRef, private commonService: CommonService) { }
 
@@ -21,8 +23,12 @@ export class Demo5Component {
     this.data = this.commonService.generateData(100000);
   }
 
+  ngOnDestroy() {
+    this.sub && this.sub.unsubscribe();
+  }
+
   update($event: Subject<any>) {
-    $event.subscribe(x => {
+    this.sub = $event.subscribe(x => {
       this.cdRef.detectChanges();
       this.event = x;
     });

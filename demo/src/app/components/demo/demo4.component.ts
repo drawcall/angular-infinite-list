@@ -1,5 +1,6 @@
 import { Component, NgModule, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from './common.service';
+import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/subject';
 
 @Component({
@@ -15,6 +16,7 @@ export class Demo4Component {
   scrollToAlignment: string = 'start';
   opts: string[] = ['auto', 'start', 'center', 'end'];
   event: any;
+  sub: Subscription;
 
   constructor(private cdRef: ChangeDetectorRef, private commonService: CommonService) { }
 
@@ -22,8 +24,12 @@ export class Demo4Component {
     this.data = this.commonService.generateData(100000);
   }
 
+  ngOnDestroy() {
+    this.sub && this.sub.unsubscribe();
+  }
+
   update($event: Subject<any>) {
-    $event.subscribe(x => {
+    this.sub = $event.subscribe(x => {
       this.cdRef.detectChanges();
       this.event = x;
     });
