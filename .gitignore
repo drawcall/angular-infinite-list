@@ -5,6 +5,7 @@
 /types
 /compiled
 /dist
+/bundles
 __src
 npm-debug.log*
 .DS_Store
