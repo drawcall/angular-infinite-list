@@ -12,6 +12,7 @@ import {
 
 //import { InfiniteListModule } from 'angular-infinite-list';
 import { InfiniteListModule } from './__src';
+
 import { AppRoutingModule } from './app-routing.module';
 
 import { NavBarComponent } from './components/navbar/navbar.component';
