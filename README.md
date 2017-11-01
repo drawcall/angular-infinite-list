@@ -3,7 +3,7 @@
 </div>
 
 # 
-> A tiny but mighty 3k list virtualization library for angular, with zero dependencies 💪
+> A short and powerful infinite scroll list library for angular, with zero dependencies 💪
 
 * **Tiny & dependency free** – Only 3kb gzipped
 * **Render millions of items**, without breaking a sweat
