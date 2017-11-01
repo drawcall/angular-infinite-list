@@ -80,10 +80,13 @@ You can switch to the Observable mode. of course, if your scene on the efficienc
 </infinitelist>
 ```
 ###### demo.component.ts
+>Notice! useob mode update trigger once otherwise it will trigger multiple times
+
 ```
 event: ILEvent;
 constructor(private cdRef: ChangeDetectorRef) { }
   
+//Notice! useob mode update trigger once otherwise it will trigger multiple times
 update($event: Subject<any>) {
     $event.subscribe(x => {
       	this.event = x;
