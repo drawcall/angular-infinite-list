@@ -86,11 +86,11 @@ You can switch to the Observable mode. of course, if your scene on the efficienc
 event: ILEvent;
 constructor(private cdRef: ChangeDetectorRef) { }
   
-//Notice! useob mode update trigger once otherwise it will trigger multiple times
+//Notice! useob mode update trigger once and otherwise it will trigger multiple times
 update($event: Subject<any>) {
     $event.subscribe(x => {
-      	this.event = x;
-		this.cdRef.detectChanges();
+		this.event = x;
+      	this.cdRef.detectChanges();
 	});
 }
 ```
