@@ -59,7 +59,7 @@ or directive usage
 > 
 > So in some high-precision scenes, we can use [rxjs](https://github.com/Reactive-Extensions/RxJS) [Observable](https://medium.com/google-developer-experts/angular-introduction-to-reactive-extensions-rxjs-a86a7430a61f) to solve.
 > About angular asynchronous, change detection checks and zone.js.
-You can view it
+You can view 
 [zone.js](https://blog.thoughtram.io/angular/2016/02/01/zones-in-angular-2.html) and [change detection](https://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html)
 
 #### set @Input `[useob]='true'` and use `ChangeDetectorRef `
