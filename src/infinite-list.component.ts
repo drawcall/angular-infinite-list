@@ -1,7 +1,10 @@
-import { Component, Input, Output, EventEmitter, SimpleChange, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChange, ViewChild, ElementRef, NgZone, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+
 import { ItemStyle, StyleCache, ItemInfo, RenderedRows } from './infinite-list.interface';
 import { SizeAndPositionManager, ItemSize } from './size-and-position-manager';
+import { InfinitelistService } from './infinite-list.service';
 import { ILEvent } from './il-event';
+import { Subject } from 'rxjs/subject';
 
 import {
   ALIGN_AUTO,
@@ -23,7 +26,7 @@ import {
 @Component({
   selector: 'infinite-list, infinitelist, [infinitelist]',
   template: `
-<div #dom (scroll)="handleScroll($event)" [ngStyle]="warpStyle">
+<div #dom [ngStyle]="warpStyle">
   <div [ngStyle]="innerStyle">
     <ng-content></ng-content>
   </div>
@@ -43,6 +46,7 @@ export class InfinitelistComponent {
   @Input() scrollDirection: string = DIRECTION_VERTICAL;
   @Input() scrollToAlignment: string = ALIGN_AUTO;
 
+  @Input() useob: boolean = false;
   @Input() overscanCount: number = 4;
   @Input() itemSize: any;
   @Input() data: any[];
@@ -57,8 +61,7 @@ export class InfinitelistComponent {
   @Input() scrollToIndex: number;
 
   @Input() estimatedItemSize: number;
-
-  @Output() update = new EventEmitter<ILEvent>();;
+  @Output() update = new EventEmitter<ILEvent | Subject<ILEvent>>();
 
   @ViewChild('dom', { read: ElementRef }) rootNode: ElementRef;
 
@@ -74,6 +77,8 @@ export class InfinitelistComponent {
     return scrollProp[this.scrollDirection];
   }
 
+  ob$: Subject<ILEvent> = new Subject<ILEvent>();
+
   warpStyle: any;
   innerStyle: any;
   offset: number;
@@ -81,14 +86,20 @@ export class InfinitelistComponent {
   scrollChangeReason: string;
   items: any[] = [];
   event: ILEvent;
+  handleScrollbind: any;
 
-  constructor() {
+  constructor(private zone: NgZone, private infinitelistService: InfinitelistService) {
     this.event = new ILEvent();
     this.event.getStyle = this.getStyle.bind(this);
   }
 
   ngOnInit() {
     this.createSizeAndPositionManager();
+
+    this.zone.runOutsideAngular(() => {
+      this.handleScrollbind = this.handleScroll.bind(this);
+      this.infinitelistService.addEventListener(this.rootNode.nativeElement, 'scroll', this.handleScrollbind);
+    });
 
     // set offset init value
     this.offset = this.scrollOffset || this.scrollToIndex != null && this.getOffsetForIndex(this.scrollToIndex) || 0;
@@ -101,7 +112,19 @@ export class InfinitelistComponent {
       this.scrollTo(this.getOffsetForIndex(this.scrollToIndex));
     }
 
-    this.ngRender();
+    if (this.useob) {
+      setTimeout(() => {
+        this.update.emit(this.ob$);
+        this.ngRender();
+      }, 0);
+    } else {
+      this.ngRender();
+    }
+  }
+
+  ngOnDestroy() {
+    this.sizeAndPositionManager.destroy();
+    this.infinitelistService.removeEventListener(this.rootNode.nativeElement, 'scroll', this.handleScrollbind);
   }
 
   ngOnChanges(changes: SimpleChange) {
@@ -167,10 +190,14 @@ export class InfinitelistComponent {
       this.event.offset = this.offset;
       this.event.items = this.items;
 
-      if (!this.getSizeIsPureNumber())
+      if (!this.infinitelistService.isPureNumber(this.itemSize))
         this.innerStyle = { ...STYLE_INNER, [this.currentSizeProp]: this.addUnit(this.sizeAndPositionManager.getTotalSize()) };
 
-      this.update.emit(this.event);
+      if (this.useob) {
+        this.ob$.next(this.event);
+      } else {
+        this.zone.run(() => this.update.emit(this.event));
+      }
     }
 
     this.ngDidUpdate();
@@ -195,7 +222,7 @@ export class InfinitelistComponent {
     if (style) return style;
 
     const { size, offset } = this.sizeAndPositionManager.getSizeAndPositionForIndex(index);
-    const debugStyle = this.debug ? { backgroundColor: this.randomColor() } : null;
+    const debugStyle = this.debug ? { backgroundColor: this.infinitelistService.randomColor() } : null;
 
     return this.styleCache[index] = {
       ...STYLE_ITEM,
@@ -248,23 +275,12 @@ export class InfinitelistComponent {
     });
   }
 
-  private getSizeIsPureNumber() {
-    if (typeof this.itemSize === 'number' || !this.itemSize)
-      return true;
-    else
-      return false;
-  }
-
   private getSize(index: number): number {
     if (typeof this.itemSize === 'function') {
       return this.itemSize(index);
     }
 
-    return Array.isArray(this.itemSize) ? this.itemSize[index] : this.itemSize;
-  }
-
-  private randomColor() {
-    return '#' + ('00000' + (Math.random() * 0x1000000 << 0).toString(16)).slice(-6);
+    return this.infinitelistService.isArray(this.itemSize) ? this.itemSize[index] : this.itemSize;
   }
 
   private recomputeSizes(startIndex = 0) {

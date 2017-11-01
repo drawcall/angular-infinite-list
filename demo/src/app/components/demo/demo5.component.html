@@ -9,15 +9,16 @@
 </div>
 
 <div class="vl-con">
-    <infinitelist
+    <div infinitelist
     [width]='"100%"'
     [height]='450'
     [data]='data'
     [scrollOffset]='scrollOffset'
     [itemSize]='120'
-    (update)='event = $event'>
+    [useob]='true'
+    (update)='update($event)'>
         <div class="li-con" *ngFor="let item of event?.items; let i=index;" [ngStyle]="event.getStyle(i)">
             item{{event.start + i}} : {{item|json}}
         </div>
-    </infinitelist>
+    </div>
 </div>

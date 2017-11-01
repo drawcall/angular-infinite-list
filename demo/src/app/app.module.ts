@@ -10,7 +10,8 @@ import {
   MatInputModule
 } from '@angular/material';
 
-import { InfiniteListModule } from 'angular-infinite-list';
+//import { InfiniteListModule } from 'angular-infinite-list';
+import { InfiniteListModule } from './__src';
 import { AppRoutingModule } from './app-routing.module';
 
 import { NavBarComponent } from './components/navbar/navbar.component';
@@ -24,6 +25,7 @@ import { Demo5Component } from './components/demo/demo5.component';
 
 import { AppComponent } from './app.component';
 
+import { CommonService } from './components/demo/common.service';
 
 @NgModule({
   imports: [
@@ -51,7 +53,7 @@ import { AppComponent } from './app.component';
     Demo5Component,
   ],
 
-  providers: [],
+  providers: [CommonService],
   bootstrap: [AppComponent],
 })
 

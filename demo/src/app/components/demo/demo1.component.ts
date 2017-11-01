@@ -1,5 +1,5 @@
-import { Component, NgModule } from '@angular/core';
-import { ILEvent } from 'angular-infinite-list';
+import { Component, NgModule, ChangeDetectorRef } from '@angular/core';
+import { CommonService } from './common.service';
 
 @Component({
   selector: 'app-demo1',
@@ -10,23 +10,16 @@ import { ILEvent } from 'angular-infinite-list';
 export class Demo1Component {
 
   data: { title: number, msg: string }[];
-  event: ILEvent;
+  event: any;
   debug: boolean = false;
 
-  ngOnInit() {
-    let length: number = 100000;
-    this.data = [];
+  constructor(private commonService: CommonService) { }
 
-    for (let i: number = 0; i < length; i++) {
-      this.data.push({ title: i, msg: 'hello wrold' });
-    }
+  ngOnInit() {
+    this.data = this.commonService.generateData(100000);
   }
 
   clone() {
-    let data = [];
-    for (let i = 0; i < this.data.length; i++)
-      data.push(this.data[i]);
-
-    this.data = data;
+    this.data = this.commonService.clone(this.data);
   }
 }

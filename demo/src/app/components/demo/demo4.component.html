@@ -24,8 +24,8 @@
     [scrollToIndex]='scrollToIndex'
     [scrollToAlignment]='scrollToAlignment'
     [itemSize]='getSize'
-    [debug]='debug'
-    (update)='event = $event'>
+    [useob]='true'
+    (update)='update($event)'>
         <div class="li-con" [ngClass]="getClass(event.start+i)" *ngFor="let item of event?.items; let i=index;" [ngStyle]="event.getStyle(i)">
             item{{event.start + i}} : {{item|json}}
         </div>

@@ -18,12 +18,12 @@ Check out the [demo](https://a-jie.github.io/angular-infinite-list) for some exa
 Getting Started
 ---------------
 
-#### Using [npm](https://www.npmjs.com/):
+### Using [npm](https://www.npmjs.com/):
 ```
 npm install angular-infinite-list --save
 ```
 
-#### Import angular Infinite list module into your app module
+### Import angular Infinite list module into your app module
 
 ```js
 import { InfiniteListModule } from 'angular-infinite-list';
@@ -36,7 +36,7 @@ import { InfiniteListModule } from 'angular-infinite-list';
     ...
 ```
 
-#### Wrap Infinite list tag around list items;
+### Wrap Infinite list tag around list items
 
 ```html
 <infinitelist
@@ -49,22 +49,49 @@ import { InfiniteListModule } from 'angular-infinite-list';
             item{{event.start + i}} : {{item|json}}
         </div>
 </infinitelist>
+
+or directive usage
+<div infinitelist [width]='"100%"' ...</div>
 ```
 
-#### Other usage;
+### Higher performance usage
+> Because in the angular all the asynchronous operation will cause change detection.High-frequency operations such as the scroll event can cause significant performance losses.
 
+> So in some high-precision scenes, we can use [rxjs](https://github.com/Reactive-Extensions/RxJS) [Observable](https://medium.com/google-developer-experts/angular-introduction-to-reactive-extensions-rxjs-a86a7430a61f) to solve.
+> About angular asynchronous, change detection checks and zone.js.
+You can view it
+[zone.js](https://blog.thoughtram.io/angular/2016/02/01/zones-in-angular-2.html) and [change detection](https://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html)
+
+#### set @Input `[useob]='true'` and use `ChangeDetectorRef `
+You can switch to the Observable mode. of course, if your scene on the efficiency requirements are not high can not do so.
+
+###### demo.component.html
 ```html
-<div infinitelist
-    [width]='"100%"' 
+<infinitelist
+    [[width]='"100%"' 
     [height]='500' 
     [data]='data' 
-    [itemSize]='50' 
-    (update)='event = $event'>
-        <div *ngFor="let item of event?.items; let i=index;" [ngStyle]="event.getStyle(i)">
-            {{item|json}}
+    [itemSize]='150' 
+    [useob]='true'
+    (update)='update($event)'>
+        <div class="li-con" *ngFor="let item of event?.items; let i=index;" [ngStyle]="event.getStyle(i)">
+            item{{event.start + i}}
         </div>
-</div>
+</infinitelist>
 ```
+###### demo.component.ts
+```
+event: ILEvent;
+constructor(private cdRef: ChangeDetectorRef) { }
+  
+update($event: Subject<any>) {
+    $event.subscribe(x => {
+      	this.event = x;
+		this.cdRef.detectChanges();
+	});
+}
+```
+[view demo code](https://github.com/a-jie/angular-infinite-list/blob/master/demo/src/app/components/demo/demo2.component.ts)
 
 
 ### Prop Types
@@ -84,7 +111,7 @@ import { InfiniteListModule } from 'angular-infinite-list';
 
 *\* Width may only be a string when `scrollDirection` is `'vertical'`. Similarly, Height may only be a string if `scrollDirection` is `'horizontal'`*
 
-#### The IILEvent interface
+### The IILEvent interface
 
 ```
 export interface IILEvent {

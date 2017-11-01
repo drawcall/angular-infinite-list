@@ -1,5 +1,5 @@
 /* Forked from react-virtualized 💖 */
-import {ALIGN_START, ALIGN_END, ALIGN_CENTER} from './constants';
+import { ALIGN_START, ALIGN_END, ALIGN_CENTER } from './constants';
 
 export type ItemSizeGetter = (index: number) => number;
 export type ItemSize = number | number[] | ItemSizeGetter;
@@ -45,13 +45,19 @@ export class SizeAndPositionManager {
   updateConfig({
     itemCount,
     estimatedItemSize,
-  }: {itemCount: number, estimatedItemSize: number}) {
+  }: { itemCount: number, estimatedItemSize: number }) {
     this.itemCount = itemCount;
     this.estimatedItemSize = estimatedItemSize;
   }
 
   getLastMeasuredIndex() {
     return this.lastMeasuredIndex;
+  }
+
+  destroy() {
+    for (let key in this.itemSizeAndPositionData) {
+      delete this.itemSizeAndPositionData[key];
+    }
   }
 
   /**
@@ -92,7 +98,7 @@ export class SizeAndPositionManager {
   getSizeAndPositionOfLastMeasuredItem() {
     return this.lastMeasuredIndex >= 0
       ? this.itemSizeAndPositionData[this.lastMeasuredIndex]
-      : {offset: 0, size: 0};
+      : { offset: 0, size: 0 };
   }
 
   /**
@@ -118,7 +124,7 @@ export class SizeAndPositionManager {
     containerSize,
     currentOffset,
     targetIndex,
-  }: {align: string | undefined, containerSize: number, currentOffset: number, targetIndex: number}): number {
+  }: { align: string | undefined, containerSize: number, currentOffset: number, targetIndex: number }): number {
     if (containerSize <= 0) {
       return 0;
     }
@@ -152,7 +158,7 @@ export class SizeAndPositionManager {
     containerSize,
     offset,
     overscanCount,
-  }: {containerSize: number, offset: number, overscanCount: number}): {start?: number, stop?: number} {
+  }: { containerSize: number, offset: number, overscanCount: number }): { start?: number, stop?: number } {
     const totalSize = this.getTotalSize();
 
     if (totalSize === 0) {
@@ -232,7 +238,7 @@ export class SizeAndPositionManager {
     }
   }
 
-  private binarySearch({low, high, offset}: {low: number, high: number, offset: number}) {
+  private binarySearch({ low, high, offset }: { low: number, high: number, offset: number }) {
     let middle = 0;
     let currentOffset = 0;
 
@@ -256,7 +262,7 @@ export class SizeAndPositionManager {
     return 0;
   }
 
-  private exponentialSearch({index, offset}: {index: number, offset: number}) {
+  private exponentialSearch({ index, offset }: { index: number, offset: number }) {
     let interval = 1;
 
     while (

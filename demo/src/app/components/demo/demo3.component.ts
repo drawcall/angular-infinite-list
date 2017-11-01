@@ -1,4 +1,6 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, ChangeDetectorRef } from '@angular/core';
+import { Subject } from 'rxjs/subject';
+import { CommonService } from './common.service';
 
 @Component({
   selector: 'app-demo3',
@@ -10,15 +12,18 @@ export class Demo3Component {
 
   data: { title: number, msg: string }[];
   event: any;
-  debug: boolean = true;
+
+  constructor(private cdRef: ChangeDetectorRef, private commonService: CommonService) { }
 
   ngOnInit() {
-    let length: number = 100000;
-    this.data = [];
+    this.data = this.commonService.generateData(100000);
+  }
 
-    for (let i: number = 0; i < length; i++) {
-      this.data.push({ title: i, msg: 'hello wrold' });
-    }
+  update($event: Subject<any>) {
+    $event.subscribe(x => {
+      this.cdRef.detectChanges();
+      this.event = x;
+    });
   }
 
   getSize(i: number): number {
@@ -37,11 +42,4 @@ export class Demo3Component {
     }
   }
 
-  clone() {
-    let data = [];
-    for (let i = 0; i < this.data.length; i++)
-      data.push(this.data[i]);
-
-    this.data = data;
-  }
 }

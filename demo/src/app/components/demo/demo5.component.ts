@@ -1,4 +1,6 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, ChangeDetectorRef } from '@angular/core';
+import { Subject } from 'rxjs/subject';
+import { CommonService } from './common.service';
 
 @Component({
   selector: 'app-demo5',
@@ -13,13 +15,17 @@ export class Demo5Component {
   scrollOffset: number = 0;
   event: any;
 
-  ngOnInit() {
-    let length: number = 100000;
-    this.data = [];
+  constructor(private cdRef: ChangeDetectorRef, private commonService: CommonService) { }
 
-    for (let i: number = 0; i < length; i++) {
-      this.data.push({ title: i, msg: 'hello wrold' });
-    }
+  ngOnInit() {
+    this.data = this.commonService.generateData(100000);
+  }
+
+  update($event: Subject<any>) {
+    $event.subscribe(x => {
+      this.cdRef.detectChanges();
+      this.event = x;
+    });
   }
 
 }

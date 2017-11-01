@@ -4,6 +4,7 @@
         <mat-slide-toggle class="ui" (change)="debug=!debug; clone();"></mat-slide-toggle>
 
         <button mat-raised-button style="float:right" class="linkbtn" color="primary"><a href="https://github.com/a-jie/angular-infinite-list/blob/master/demo/src/app/components/demo/demo2.component.html" target="_blank">view code</a></button>
+        <button mat-raised-button style="float:right;margin-right:20px;" class="linkbtn" color="warn"><a href="https://github.com/a-jie/angular-infinite-list/wiki/Observable-mode" target="_blank">about useob</a></button>
     </div>
 </div>
 
@@ -15,7 +16,8 @@
     [debug]='debug'
     [itemSize]='115'
     [scrollDirection]='"horizontal"'
-    (update)='event = $event'>
+    [useob]='true'
+    (update)='update($event)'>
         <div class="li-con li-con-r" *ngFor="let item of event?.items; let i=index;" [ngStyle]="event.getStyle(i)">
             item{{event.start + i}} <br/>
             xxxxxxx <br/>

@@ -5,6 +5,7 @@
 /types
 /compiled
 /dist
+__src
 npm-debug.log*
 .DS_Store
 demo/package-lock.json

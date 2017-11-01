@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/platform-browser')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/platform-browser'], factory) :
-	(factory((global['angular-infinite-list'] = {}),global.ng.core,global.ng['platform-browser']));
-}(this, (function (exports,core,platformBrowser) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs/subject'), require('@angular/platform-browser')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/subject', '@angular/platform-browser'], factory) :
+	(factory((global['angular-infinite-list'] = {}),global.ng.core,global.Rx,global.ng['platform-browser']));
+}(this, (function (exports,core,subject,platformBrowser) { 'use strict';
 
 var ILEvent = (function () {
     function ILEvent() {
@@ -57,6 +57,11 @@ var SizeAndPositionManager = (function () {
     };
     SizeAndPositionManager.prototype.getLastMeasuredIndex = function () {
         return this.lastMeasuredIndex;
+    };
+    SizeAndPositionManager.prototype.destroy = function () {
+        for (var key in this.itemSizeAndPositionData) {
+            delete this.itemSizeAndPositionData[key];
+        }
     };
     /**
      * This method returns the size and position for the item at the specified index.
@@ -238,6 +243,51 @@ var SizeAndPositionManager = (function () {
     return SizeAndPositionManager;
 }());
 
+var InfinitelistService = (function () {
+    function InfinitelistService() {
+    }
+    InfinitelistService.prototype.addEventListener = function (ele, eventType, callback) {
+        if (ele.addEventListener) {
+            return ele.addEventListener(eventType, callback, false);
+        }
+        else if (ele['attachEvent']) {
+            return ele['attachEvent'](eventType, callback);
+        }
+        else {
+            return ele["on" + eventType] = callback;
+        }
+    };
+    InfinitelistService.prototype.removeEventListener = function (ele, eventType, callback) {
+        if (ele.removeEventListener) {
+            return ele.removeEventListener(eventType, callback, false);
+        }
+        else if (ele['detachEvent']) {
+            return ele['detachEvent'](eventType, callback);
+        }
+        else {
+            return ele["on" + eventType] = null;
+        }
+    };
+    InfinitelistService.prototype.isArray = function (val) {
+        return Object.prototype.toString.call(val) === '[object Array]';
+    };
+    InfinitelistService.prototype.randomColor = function () {
+        return '#' + ('00000' + (Math.random() * 0x1000000 << 0).toString(16)).slice(-6);
+    };
+    InfinitelistService.prototype.isPureNumber = function (val) {
+        if (typeof val === 'number' || !val)
+            return true;
+        else
+            return false;
+    };
+    InfinitelistService.decorators = [
+        { type: core.Injectable },
+    ];
+    /** @nocollapse */
+    InfinitelistService.ctorParameters = function () { return []; };
+    return InfinitelistService;
+}());
+
 var __assign = (undefined && undefined.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -247,21 +297,24 @@ var __assign = (undefined && undefined.__assign) || Object.assign || function(t)
     return t;
 };
 var InfinitelistComponent = (function () {
-    function InfinitelistComponent() {
+    function InfinitelistComponent(zone, infinitelistService) {
+        this.zone = zone;
+        this.infinitelistService = infinitelistService;
         this.styleCache = {};
         this._width = '100%';
         this._height = '100%';
         this.scrollDirection = DIRECTION_VERTICAL;
         this.scrollToAlignment = ALIGN_AUTO;
+        this.useob = false;
         this.overscanCount = 4;
         this.debug = false;
         this.unit = 'px';
         this.update = new core.EventEmitter();
+        this.ob$ = new subject.Subject();
         this.items = [];
         this.event = new ILEvent();
         this.event.getStyle = this.getStyle.bind(this);
     }
-    
     Object.defineProperty(InfinitelistComponent.prototype, "itemCount", {
         get: function () {
             return this.data ? this.data.length : 0;
@@ -284,7 +337,12 @@ var InfinitelistComponent = (function () {
         configurable: true
     });
     InfinitelistComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.createSizeAndPositionManager();
+        this.zone.runOutsideAngular(function () {
+            _this.handleScrollbind = _this.handleScroll.bind(_this);
+            _this.infinitelistService.addEventListener(_this.rootNode.nativeElement, 'scroll', _this.handleScrollbind);
+        });
         // set offset init value
         this.offset = this.scrollOffset || this.scrollToIndex != null && this.getOffsetForIndex(this.scrollToIndex) || 0;
         this.scrollChangeReason = SCROLL_CHANGE_REQUESTED;
@@ -295,7 +353,19 @@ var InfinitelistComponent = (function () {
         else if (this.scrollToIndex != null) {
             this.scrollTo(this.getOffsetForIndex(this.scrollToIndex));
         }
-        this.ngRender();
+        if (this.useob) {
+            setTimeout(function () {
+                _this.update.emit(_this.ob$);
+                _this.ngRender();
+            }, 0);
+        }
+        else {
+            this.ngRender();
+        }
+    };
+    InfinitelistComponent.prototype.ngOnDestroy = function () {
+        this.sizeAndPositionManager.destroy();
+        this.infinitelistService.removeEventListener(this.rootNode.nativeElement, 'scroll', this.handleScrollbind);
     };
     InfinitelistComponent.prototype.ngOnChanges = function (changes) {
         this.createSizeAndPositionManager();
@@ -333,6 +403,7 @@ var InfinitelistComponent = (function () {
         }
     };
     InfinitelistComponent.prototype.ngRender = function () {
+        var _this = this;
         var _a = this.sizeAndPositionManager.getVisibleRange({
             containerSize: this[this.currentSizeProp] || 0,
             offset: this.offset,
@@ -348,9 +419,14 @@ var InfinitelistComponent = (function () {
             this.event.stop = stop;
             this.event.offset = this.offset;
             this.event.items = this.items;
-            if (!this.getSizeIsPureNumber())
+            if (!this.infinitelistService.isPureNumber(this.itemSize))
                 this.innerStyle = __assign({}, STYLE_INNER, (_b = {}, _b[this.currentSizeProp] = this.addUnit(this.sizeAndPositionManager.getTotalSize()), _b));
-            this.update.emit(this.event);
+            if (this.useob) {
+                this.ob$.next(this.event);
+            }
+            else {
+                this.zone.run(function () { return _this.update.emit(_this.event); });
+            }
         }
         this.ngDidUpdate();
         var _b;
@@ -372,7 +448,7 @@ var InfinitelistComponent = (function () {
         if (style)
             return style;
         var _a = this.sizeAndPositionManager.getSizeAndPositionForIndex(index), size = _a.size, offset = _a.offset;
-        var debugStyle = this.debug ? { backgroundColor: this.randomColor() } : null;
+        var debugStyle = this.debug ? { backgroundColor: this.infinitelistService.randomColor() } : null;
         return this.styleCache[index] = __assign({}, STYLE_ITEM, debugStyle, (_b = {}, _b[this.currentSizeProp] = this.addUnit(size), _b[positionProp[this.scrollDirection]] = this.addUnit(offset), _b));
         var _b;
     };
@@ -415,20 +491,11 @@ var InfinitelistComponent = (function () {
             targetIndex: index,
         });
     };
-    InfinitelistComponent.prototype.getSizeIsPureNumber = function () {
-        if (typeof this.itemSize === 'number' || !this.itemSize)
-            return true;
-        else
-            return false;
-    };
     InfinitelistComponent.prototype.getSize = function (index) {
         if (typeof this.itemSize === 'function') {
             return this.itemSize(index);
         }
-        return Array.isArray(this.itemSize) ? this.itemSize[index] : this.itemSize;
-    };
-    InfinitelistComponent.prototype.randomColor = function () {
-        return '#' + ('00000' + (Math.random() * 0x1000000 << 0).toString(16)).slice(-6);
+        return this.infinitelistService.isArray(this.itemSize) ? this.itemSize[index] : this.itemSize;
     };
     InfinitelistComponent.prototype.recomputeSizes = function (startIndex) {
         if (startIndex === void 0) { startIndex = 0; }
@@ -438,15 +505,19 @@ var InfinitelistComponent = (function () {
     InfinitelistComponent.decorators = [
         { type: core.Component, args: [{
                     selector: 'infinite-list, infinitelist, [infinitelist]',
-                    template: "\n<div #dom (scroll)=\"handleScroll($event)\" [ngStyle]=\"warpStyle\">\n  <div [ngStyle]=\"innerStyle\">\n    <ng-content></ng-content>\n  </div>\n</div>\n  ",
+                    template: "\n<div #dom [ngStyle]=\"warpStyle\">\n  <div [ngStyle]=\"innerStyle\">\n    <ng-content></ng-content>\n  </div>\n</div>\n  ",
                     changeDetection: core.ChangeDetectionStrategy.OnPush
                 },] },
     ];
     /** @nocollapse */
-    InfinitelistComponent.ctorParameters = function () { return []; };
+    InfinitelistComponent.ctorParameters = function () { return [
+        { type: core.NgZone, },
+        { type: InfinitelistService, },
+    ]; };
     InfinitelistComponent.propDecorators = {
         'scrollDirection': [{ type: core.Input },],
         'scrollToAlignment': [{ type: core.Input },],
+        'useob': [{ type: core.Input },],
         'overscanCount': [{ type: core.Input },],
         'itemSize': [{ type: core.Input },],
         'data': [{ type: core.Input },],
@@ -488,7 +559,7 @@ var InfiniteListModule = (function () {
                     declarations: [InfinitelistComponent],
                     exports: [InfinitelistComponent],
                     imports: [platformBrowser.BrowserModule],
-                    providers: []
+                    providers: [InfinitelistService]
                 },] },
     ];
     /** @nocollapse */
