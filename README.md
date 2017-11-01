@@ -56,7 +56,6 @@ or directive usage
 
 ### Higher performance usage
 > Because in the angular all the asynchronous operation will cause change detection.High-frequency operations such as the scroll event can cause significant performance losses.
-
 > So in some high-precision scenes, we can use [rxjs](https://github.com/Reactive-Extensions/RxJS) [Observable](https://medium.com/google-developer-experts/angular-introduction-to-reactive-extensions-rxjs-a86a7430a61f) to solve.
 > About angular asynchronous, change detection checks and zone.js.
 You can view it
