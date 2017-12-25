@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 
 import { InfinitelistComponent } from './infinite-list.component';
 import { InfinitelistService } from './infinite-list.service';
@@ -7,7 +7,7 @@ import { InfinitelistService } from './infinite-list.service';
 @NgModule({
   declarations: [InfinitelistComponent],
   exports: [InfinitelistComponent],
-  imports: [BrowserModule],
+  imports: [CommonModule],
   providers: [InfinitelistService]
 })
 
