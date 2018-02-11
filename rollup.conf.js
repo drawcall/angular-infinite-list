@@ -8,13 +8,13 @@ export default {
         '@angular/core',
         '@angular/platform-browser',
         '@angular/common',
-        'rxjs/subject'
+        'rxjs/Subject'
     ],
     globals: {
         '@angular/core': 'ng.core',
         '@angular/platform-browser': 'ng.platform-browser',
         '@angular/common': 'ng.common',
-        "rxjs/subject": "Rx"
+        "rxjs/Subject": "Rx"
     },
     name: 'angular-infinite-list'
 }

@@ -10,8 +10,8 @@ import {
   MatInputModule
 } from '@angular/material';
 
-//import { InfiniteListModule } from 'angular-infinite-list';
-import { InfiniteListModule } from './__src';
+import { InfiniteListModule } from 'angular-infinite-list';
+//import { InfiniteListModule } from './__src';
 
 import { AppRoutingModule } from './app-routing.module';
 

@@ -1,7 +1,7 @@
 import { Component, NgModule, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from './common.service';
 import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/subject';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-demo3',
