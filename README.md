@@ -68,7 +68,7 @@ You can switch to the Observable mode. of course, if your scene on the efficienc
 ###### demo.component.html
 ```html
 <infinitelist
-    [[width]='"100%"' 
+    [width]='"100%"' 
     [height]='500' 
     [data]='data' 
     [itemSize]='150' 
