@@ -16,7 +16,7 @@ import { Demo5Component } from './components/demo/demo5.component';
             { path: 'demo3', component: Demo3Component },
             { path: 'demo4', component: Demo4Component },
             { path: 'demo5', component: Demo5Component },
-        ])
+        ], { useHash: true })
     ],
     exports: [RouterModule],
     providers: []

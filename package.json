@@ -1,6 +1,6 @@
 {
   "name": "angular-infinite-list",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "A tiny but mighty 3k list virtualization library for angular, with zero dependencies",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
