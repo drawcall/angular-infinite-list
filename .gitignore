@@ -7,6 +7,7 @@
 /dist
 /bundles
 __src
+__lib
 npm-debug.log*
 .DS_Store
 demo/package-lock.json

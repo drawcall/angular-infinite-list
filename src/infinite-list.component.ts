@@ -27,7 +27,7 @@ import {
   selector: 'infinite-list, infinitelist, [infinitelist]',
   template: `
 <div #dom [ngStyle]="warpStyle">
-  <div [ngStyle]="innerStyle">
+  <div #inner [ngStyle]="innerStyle">
     <ng-content></ng-content>
   </div>
 </div>
@@ -64,6 +64,7 @@ export class InfinitelistComponent {
   @Output() update = new EventEmitter<ILEvent | Subject<ILEvent>>();
 
   @ViewChild('dom', { read: ElementRef }) rootNode: ElementRef;
+  @ViewChild('inner', { read: ElementRef }) innerNode: ElementRef;
 
   get itemCount(): number {
     return this.data ? this.data.length : 0;
@@ -195,6 +196,9 @@ export class InfinitelistComponent {
 
       if (this.useob) {
         this.ob$.next(this.event);
+
+        if (!this.infinitelistService.isPureNumber(this.itemSize))
+          this.innerNode.nativeElement.style[this.currentSizeProp] = this.addUnit(this.sizeAndPositionManager.getTotalSize());
       } else {
         this.zone.run(() => this.update.emit(this.event));
       }
