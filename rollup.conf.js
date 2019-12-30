@@ -1,6 +1,7 @@
 export default {
     input: 'dist/index.js',
     output: {
+        name: 'angular-infinite-list',
         file: 'bundles/angular-infinite-list.umd.js',
         format: 'umd'
     },

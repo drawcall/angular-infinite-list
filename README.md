@@ -1,5 +1,5 @@
 <div align="center" style="margin-bottom: 30px;">
-<img src="https://raw.githubusercontent.com/a-jie/angular-infinite-list/master/imgs/logo.png" width="200"/>
+<img src="https://raw.githubusercontent.com/drawcall/angular-infinite-list/master/imgs/logo.png" width="200"/>
 </div>
 
 # 
@@ -13,7 +13,7 @@
 
 This library is transplanted from [react-tiny-virtual-list](https://github.com/clauderic/react-tiny-virtual-list) and [react-virtualized](https://github.com/bvaughn/react-virtualized/).   
 
-Check out the [demo](https://a-jie.github.io/angular-infinite-list) for some examples.
+Check out the [demo](https://drawcall.github.io/angular-infinite-list) for some examples.
 
 Getting Started
 ---------------
@@ -94,7 +94,7 @@ update($event: Subject<any>) {
 	});
 }
 ```
-[view demo code](https://github.com/a-jie/angular-infinite-list/blob/master/demo/src/app/components/demo/demo2.component.ts)
+[view demo code](https://github.com/drawcall/angular-infinite-list/blob/master/demo/src/app/components/demo/demo2.component.ts)
 
 
 ### Prop Types
@@ -128,7 +128,7 @@ export interface IILEvent {
 ```
 
 ## Reporting Issues
-Found an issue? Please [report it](https://github.com/a-jie/angular-infinite-list/issues) along with any relevant details to reproduce it.
+Found an issue? Please [report it](https://github.com/drawcall/angular-infinite-list/issues) along with any relevant details to reproduce it.
 
 ## Acknowledgments
 This library is transplanted from [react-tiny-virtual-list](https://github.com/clauderic/react-tiny-virtual-list) and [react-virtualized](https://github.com/bvaughn/react-virtualized/). 
