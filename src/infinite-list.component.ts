@@ -4,7 +4,7 @@ import { ItemStyle, StyleCache, ItemInfo, RenderedRows } from './infinite-list.i
 import { SizeAndPositionManager, ItemSize } from './size-and-position-manager';
 import { InfinitelistService } from './infinite-list.service';
 import { ILEvent } from './il-event';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 import {
   ALIGN_AUTO,
@@ -94,7 +94,11 @@ export class InfinitelistComponent {
     this.event.getStyle = this.getStyle.bind(this);
   }
 
-  ngOnInit() {
+  ngAfterViewInit(){
+    setTimeout(this.initAll.bind(this));
+  }
+
+  initAll() {
     this.createSizeAndPositionManager();
 
     this.zone.runOutsideAngular(() => {

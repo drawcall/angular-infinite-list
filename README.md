@@ -40,6 +40,7 @@ import { InfiniteListModule } from 'angular-infinite-list';
 
 ```html
 <infinitelist
+    style="width:100%"
     [width]='"100%"' 
     [height]='500' 
     [data]='data' 
