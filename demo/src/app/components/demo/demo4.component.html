@@ -1,0 +1,33 @@
+<div class="ctrl">
+    <div class="clist">
+        <mat-form-field class="example-full-width">
+                <input type="number" matInput (input)="input()" [(ngModel)]="scrollToIndex" placeholder="Scroll to index">
+        </mat-form-field>
+
+        <mat-form-field style="margin-left:20px;">
+            <mat-select placeholder="scrollToAlignment" [(ngModel)]="scrollToAlignment">
+                <mat-option *ngFor="let opt of opts" [value]="opt">
+                    {{ opt }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button style="float:right" class="linkbtn" color="primary"><a href="https://github.com/a-jie/angular-infinite-list/blob/master/demo/src/app/components/demo/demo4.component.html" target="_blank">view code</a></button>
+    </div>
+</div>
+
+<div class="vl-con">
+    <infinitelist
+    [width]='"100%"'
+    [height]='450'
+    [data]='data'
+    [scrollToIndex]='scrollToIndex'
+    [scrollToAlignment]='scrollToAlignment'
+    [itemSize]='getSize'
+    [useob]='true'
+    (update)='update($event)'>
+        <div class="li-con" [ngClass]="getClass(event.start+i)" *ngFor="let item of event?.items; let i=index;" [ngStyle]="event.getStyle(i)">
+            item{{event.start + i}} : {{item|json}}
+        </div>
+    </infinitelist>
+</div>

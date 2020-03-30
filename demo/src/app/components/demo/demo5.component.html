@@ -1,0 +1,24 @@
+<div class="ctrl">
+    <div class="clist">
+        <mat-form-field class="example-full-width">
+                <input type="number" matInput [(ngModel)]="scrollOffset" placeholder="Scroll to offset">
+        </mat-form-field>
+
+        <button mat-raised-button style="float:right" class="linkbtn" color="primary"><a href="https://github.com/a-jie/angular-infinite-list/blob/master/demo/src/app/components/demo/demo5.component.html" target="_blank">view code</a></button>
+    </div>
+</div>
+
+<div class="vl-con">
+    <div infinitelist
+    [width]='"100%"'
+    [height]='450'
+    [data]='data'
+    [scrollOffset]='scrollOffset'
+    [itemSize]='120'
+    [useob]='true'
+    (update)='update($event)'>
+        <div class="li-con" *ngFor="let item of event?.items; let i=index;" [ngStyle]="event.getStyle(i)">
+            item{{event.start + i}} : {{item|json}}
+        </div>
+    </div>
+</div>
