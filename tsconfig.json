@@ -1,26 +1,29 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "module": "es2015",
-    "target": "es5",
-    "lib": ["es2015", "dom"],
-    "skipLibCheck": true,
-    "emitDecoratorMetadata": true,
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
     "experimentalDecorators": true,
-    "sourceMap": false,
+    "module": "esnext",
     "moduleResolution": "node",
-    "declaration": true,
-    "outDir": "./dist",
-    "rootDir": "./src"
+    "importHelpers": true,
+    "target": "es2015",
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "angular-infinite-list": [
+        "dist/angular-infinite-list/angular-infinite-list",
+        "dist/angular-infinite-list"
+      ]
+    }
   },
-  "exclude": [
-    "node_modules",
-    "demo",
-    "dist",
-    "compiled"
-  ],
   "angularCompilerOptions": {
-    "skipMetadataEmit": false,
-    "strictMetadataEmit": true,
-    "skipTemplateCodegen": true
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
   }
 }
