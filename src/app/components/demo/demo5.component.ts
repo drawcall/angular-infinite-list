@@ -1,6 +1,6 @@
 import { Component, NgModule, ChangeDetectorRef } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CommonService } from './common.service';
 
 @Component({
