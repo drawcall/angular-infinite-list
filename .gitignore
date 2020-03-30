@@ -11,3 +11,4 @@ __lib
 npm-debug.log*
 .DS_Store
 demo/package-lock.json
+package-lock.json
