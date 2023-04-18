@@ -2,7 +2,7 @@
     <div class="clist">
         <span class="title">Debug: </span>
         <mat-slide-toggle class="ui" (change)="debug=!debug; clone();"></mat-slide-toggle>
-        <span style="margin-left:50px">start: {{event?.start}} | stop: {{event?.stop}} | total: {{data?.length}}</span>
+        <span style="margin-left:50px">start: {{event?.start}} | stop: {{event?.stop}} | total: {{data.length}}</span>
 
         <button mat-raised-button style="float:right" class="linkbtn" color="primary"><a href="https://github.com/drawcall/angular-infinite-list/blob/master/demo/src/app/components/demo/demo1.component.html" target="_blank">view code</a></button>
     </div>
@@ -15,7 +15,7 @@
     [data]='data'
     [itemSize]='50'
     [debug]='debug'
-    (update)='event = $event'>
+    (updateEvent)='event = $event'>
         <div class="li-con" *ngFor="let item of event?.items; let i=index;" [ngStyle]="event.getStyle(i)">
             item{{event.start + i}} : {{item|json}}
         </div>

@@ -61,7 +61,8 @@ export class InfinitelistComponent {
   @Input() scrollToIndex: number;
 
   @Input() estimatedItemSize: number;
-  @Output() update = new EventEmitter<ILEvent | Subject<ILEvent>>();
+  @Output() update = new EventEmitter<Subject<ILEvent>>();
+  @Output() updateEvent = new EventEmitter<ILEvent>();
 
   @ViewChild('dom', { read: ElementRef }) rootNode: ElementRef;
   @ViewChild('inner', { read: ElementRef }) innerNode: ElementRef;
@@ -204,7 +205,7 @@ export class InfinitelistComponent {
         if (!this.infinitelistService.isPureNumber(this.itemSize))
           this.innerNode.nativeElement.style[this.currentSizeProp] = this.addUnit(this.sizeAndPositionManager.getTotalSize());
       } else {
-        this.zone.run(() => this.update.emit(this.event));
+        this.zone.run(() => this.updateEvent.emit(this.event));
       }
     }
 

@@ -17,6 +17,7 @@ export class Demo1Component {
 
   ngOnInit() {
     this.data = this.commonService.generateData(100000);
+    console.log(this.data);
   }
 
   clone() {

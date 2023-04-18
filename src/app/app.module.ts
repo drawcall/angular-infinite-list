@@ -32,7 +32,6 @@ import { CommonService } from './components/demo/common.service';
     FormsModule,
     AppRoutingModule,
     InfiniteListModule,
-
     MatSlideToggleModule,
     MatSelectModule,
     MatButtonModule,
@@ -43,7 +42,6 @@ import { CommonService } from './components/demo/common.service';
     AppComponent,
     NavBarComponent,
     SideBarComponent,
-
     Demo1Component,
     Demo2Component,
     Demo3Component,
