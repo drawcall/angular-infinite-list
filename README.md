@@ -45,7 +45,7 @@ import { InfiniteListModule } from 'angular-infinite-list';
     [height]='500' 
     [data]='data' 
     [itemSize]='50' 
-    (update)='event = $event'>
+    (updateEvent)='event = $event'>
         <div *ngFor="let item of event?.items; let i=index;" [ngStyle]="event.getStyle(i)">
             item{{event.start + i}} : {{item|json}}
         </div>
@@ -58,8 +58,7 @@ or directive usage
 ### Upgrade Notice
 > In order to be compatible with angularv15+, I upgraded the library.
 
-#### Modify as follows
-If [useob]='false' or not set. Then you need to use updateEvent to execute the update of the event. Refer to demo1 for details.
+If  or not set. Then you need to use updateEvent to execute the update of the event. Refer to demo1 for details.
 
 ### Higher performance usage
 > Because in the angular all the asynchronous operation will cause change detection.High-frequency operations such as the scroll event can cause significant performance losses.
