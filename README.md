@@ -53,7 +53,13 @@ import { InfiniteListModule } from 'angular-infinite-list';
 
 or directive usage
 <div infinitelist [width]='"100%"' ...</div>
-```
+``` 
+
+### Upgrade Notice
+> In order to be compatible with angularv15+, I upgraded the library.
+
+#### Modify as follows
+If [useob]='false' or not set. Then you need to use updateEvent to execute the update of the event. Refer to demo1 for details.
 
 ### Higher performance usage
 > Because in the angular all the asynchronous operation will cause change detection.High-frequency operations such as the scroll event can cause significant performance losses.
